@@ -5,6 +5,11 @@ with open("train.py", "w") as f:
         import subprocess
         from tqdm import tqdm
         import sys
+
+        # Hack to avoid Jupyter/Kaggle/Colab -f argument error
+        if __name__ == "__main__" and "ipykernel" in sys.modules:
+            sys.argv = ['train.py']  # override unknown args
+            
         import os
         import torch
         import torch.nn as nn
@@ -99,7 +104,7 @@ with open("train.py", "w") as f:
                 drop_last=True
             )
 
-            model = PromptIRModel().cuda()                            
+            #model = PromptIRModel().cuda()                            
             ckpt_path = '/kaggle/working/ckpt/epoch=45-step=147200.ckpt'
             model = PromptIRModel.load_from_checkpoint(ckpt_path).cuda()
 
